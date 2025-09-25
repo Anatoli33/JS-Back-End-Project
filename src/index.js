@@ -1,5 +1,6 @@
 import express from "express"
 import handlebars from "express-handlebars";
+import homeController from "./controllers/homeController.js";
 
 const app = express();
 const port = 3000;
@@ -15,12 +16,7 @@ app.set('views', 'src/views');
 // Setup static middleware
 app.use(express.static('src/public'));
 
-app.get('/', (req, res) => {
-res.render('home');
-});
-app.get('/about', (req, res) => {
-res.render('about');
-});
+app.use(homeController);
 
 app.listen(port, () => console.log(`Express running
 on port: ${port}...`));

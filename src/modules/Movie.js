@@ -1,3 +1,5 @@
+import {v4 as uuid} from 'uuid';
+
 const movies = [
 
   {
@@ -38,6 +40,7 @@ const movies = [
 export default class Movie {
   constructor(data) {
     Object.assign(this, data); 
+    this._id = uuid();
   }
 
   static find() {

@@ -1,4 +1,5 @@
 const movies = [
+
   {
     title: "Home Alone",
     category: "Movie",
@@ -34,8 +35,17 @@ const movies = [
   }
 ]
 
-export default class Movie{
-    static find(){
-        return movies.slice();
-    }
+export default class Movie {
+  constructor(data) {
+    Object.assign(this, data); 
+  }
+
+  static find() {
+    return movies.slice(); // returns a copy of all movies
+  }
+
+  save() {
+    movies.push(this);  // push the instance itself
+    return this;         // return the instance
+  }
 }

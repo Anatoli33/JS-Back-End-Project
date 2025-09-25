@@ -6,12 +6,13 @@ const movieController = Router();
 movieController.get('/create', (req, res) => {
     res.render('create');
 });
-movieController.post('/create', (req, res) =>{
+movieController.post('/create', (req, res) => {
     const movieData = req.body;
 
-    movieService.create(movieData);
-    
-    res.end();
-})
+    const movie = movieService.create(movieData);
 
-export default movieController
+    console.log('Created movie:', movie.title);
+
+});
+
+export default movieController;

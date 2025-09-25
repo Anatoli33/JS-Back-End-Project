@@ -41,11 +41,12 @@ export default class Movie {
   }
 
   static find() {
-    return movies.slice(); // returns a copy of all movies
+    return movies.slice(); 
   }
 
   save() {
-    movies.push(this);  // push the instance itself
-    return this;         // return the instance
+    movies.push(this); 
+
+    return this;      
   }
 }

@@ -1,6 +1,7 @@
 import express from "express"
 import handlebars from "express-handlebars";
 import homeController from "./controllers/homeController.js";
+import movieController from "./controllers/movieController.js";
 
 const app = express();
 const port = 3000;
@@ -17,6 +18,7 @@ app.set('views', 'src/views');
 app.use(express.static('src/public'));
 
 app.use(homeController);
+app.use(movieController);
 
 app.listen(port, () => console.log(`Express running
 on port: ${port}...`));

@@ -50,10 +50,12 @@ export default class Movie {
     }
 
     if(filter.title){
-      // result = 
+      
     }
     
-    if(filter.genre){}
+    if(filter.genre){
+      result = movies.filter(movie => movie.genre.toLowerCase() === filter.genre.toLowerCase());
+    }
 
     if(filter.year){
       result = movies.filter(movie => movie.year === filter.year);

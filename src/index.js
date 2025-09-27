@@ -1,10 +1,25 @@
 import express from "express"
 import handlebars from "express-handlebars";
+import mongoose from "mongoose";
+
 import routes from "./routes.js";
 
 
 const app = express();
 const port = 3000;
+
+// Setup Database
+const url = 'mongodb://localhost:27017';
+
+try {
+    await mongoose.connect(url, {
+    dbName: 'movie-magic'
+    });
+
+    console.log('Successfully connected!');
+} catch (error) {
+    console.error('Cannot connect to DB,', error.message);
+}
 
 // Setup Handlebars
 app.engine('hbs', handlebars.engine({
@@ -20,5 +35,4 @@ app.use(express.urlencoded());
 
 app.use(routes);
 
-app.listen(port, () => console.log(`Express running
-on port: ${port}...`));
+app.listen(port, () => console.log(`Express running on port: ${port}...`));

@@ -9,18 +9,24 @@ movieController.get('/create', (req, res) => {
 movieController.post('/create', (req, res) => {
     const movieData = req.body;
 
-    const movie = movieService.create(movieData);
+    movieService.create(movieData);
     
     res.redirect("/");
 
 });
 
-movieController.get("/:movieId/details", (req, res) =>{
-    const movieId = req.params.movieId;
-    const movie = movieService.getOne(movieId);
-    
-    res.render('details', {movie});
+movieController.get("/:movieId/details", async (req, res) => {
+    try {
+        const movieId = req.params.movieId;
+        const movie = await movieService.getOne(movieId);
+
+        res.render("details", { movie });
+    } catch (err) {
+        console.error(err);
+        res.status(500).send("Something went wrong while loading movie details");
+    }
 });
+
 movieController.get('/search', (req, res) =>{
     const filter = req.query;
 

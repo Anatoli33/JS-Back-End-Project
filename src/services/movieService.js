@@ -2,14 +2,21 @@ import Movie from "../modules/movie.js";
 
 export default{
     
-    async getAll(filter){
-    const result = await Movie.find(filter);
-    // const result = await Movie.find(filter).lean();
+async getAll(filter = {}) {  // default to {}
+    const query = {};
 
-    // const resultObj = result.map(movie => movie.toObject());
+    if (filter.genre) {
+        query.genre = { $regex: filter.genre, $options: 'i' };
+    }
 
-    return result;
-}, 
+    if (filter.year) {
+        query.year = filter.year;
+    }
+
+    return Movie.find(query).lean();
+}
+
+, 
     getOne(movieId){
         // return Movie.findOne({id: movieId});
         return Movie.findById(movieId);

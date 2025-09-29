@@ -1,4 +1,4 @@
-import Cast from "../modules/Cast"
+import Cast from "../modules/Cast.js"
 
 export default{
     create(castData){

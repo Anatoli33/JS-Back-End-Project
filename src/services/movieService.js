@@ -2,7 +2,7 @@ import Movie from "../modules/movie.js";
 
 export default{
     
-getAll(filter = {}) {
+    getAll(filter = {}) {
         let query = Movie.find();
         // const result = await Movie.find(filter).lean();
         // const resultObj = result.map(movie => movie.toObject());
@@ -23,8 +23,7 @@ getAll(filter = {}) {
         }
 
         return query;
-    }
-, 
+    }, 
     getOne(movieId){
         // return Movie.findOne({id: movieId});
         return Movie.findById(movieId);
@@ -34,5 +33,8 @@ getAll(filter = {}) {
         const movie = new Movie(movieData);
         
         return movie.save();
+    },
+    async attach(movieId, castId){
+          return Movie.findByIdAndUpdate(movieId, { $push: { casts: castId } });
     }
 }

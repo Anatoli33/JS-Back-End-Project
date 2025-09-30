@@ -20,7 +20,10 @@ movieController.get("/:movieId/details", async (req, res) => {
     try {
         const movieId = req.params.movieId;
         const movie = await movieService.getOne(movieId);
+        const movieCast = await castService.getAll({includes: movie.casts});
 
+        console.log(movieCast);
+        
         res.render("details", { movie });
     } catch (err) {
         console.error(err);

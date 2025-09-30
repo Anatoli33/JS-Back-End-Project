@@ -20,11 +20,10 @@ movieController.get("/:movieId/details", async (req, res) => {
     try {
         const movieId = req.params.movieId;
         const movie = await movieService.getOne(movieId);
-        const movieCast = await castService.getAll({includes: movie.casts});
+        const movieCasts = await castService.getAll({includes: movie.casts});
 
-        console.log(movieCast);
-        
-        res.render("details", { movie });
+       
+        res.render("details", { movie, casts: movieCasts });
     } catch (err) {
         console.error(err);
         res.status(500).send("Something went wrong while loading movie details");

@@ -1,16 +1,16 @@
-import Cast from "../modules/Cast.js"
+import Cast from "../modules/Cast.js";
 
-export default{
-    create(castData){
+export default {
+    create(castData) {
         return Cast.create(castData);
     },
-    async getAll(filter = {}){
-        let query = Cast.find();
+    async getAll(filter = {}) {
+        let query = {};
 
-        if(filter.includes){
-            query = query.in('_id', filter.includes)
+        if (filter.includes) {
+            query._id = { $in: filter.includes };
         }
 
-        return query;
+        return Cast.find(query).exec();
     }
-}
+};

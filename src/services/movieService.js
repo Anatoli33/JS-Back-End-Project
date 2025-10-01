@@ -2,28 +2,24 @@ import Movie from "../modules/movie.js";
 
 export default{
     
-    getAll(filter = {}) {
-        let query = Movie.find();
-        // const result = await Movie.find(filter).lean();
-        // const resultObj = result.map(movie => movie.toObject());
+    async getAll(filter = {}) {
+    const query = {};
 
-        if (filter.title) {
+    if (filter.title) {
+        query.title = { $regex: filter.title, $options: 'i' };
+    }
 
-            query = query.find({ title: { $regex: filter.title, $options: 'i' } });
-        }
+    if (filter.genre) {
+        query.genre = { $regex: filter.genre, $options: 'i' };
+    }
 
-        if (filter.genre) {
-            
-            query = query.find({ genre: { $regex: new RegExp(`^${filter.genre}$`), $options: 'i' } })
-        }
+    if (filter.year) {
+        query.year = Number(filter.year);
+    }
 
-        if (filter.year) {
-            // result = result.find({ year: filter.year })
-            query = query.where('year').equals(filter.year);
-        }
-
-        return query;
-    }, 
+    return await Movie.find(query).lean();
+    },
+ 
     getOne(movieId){
         // return Movie.findOne({id: movieId});
         return Movie.findById(movieId).populate('casts');

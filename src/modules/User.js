@@ -1,5 +1,5 @@
 import { Schema, model } from 'mongoose';
-
+import bcrypt from 'bcrypt';
 
 const userSchema = new Schema({
     email: {
@@ -11,6 +11,7 @@ const userSchema = new Schema({
         required: true,
     }
 });
+
 
 const User = model('User', userSchema);
 

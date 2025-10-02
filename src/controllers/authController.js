@@ -2,8 +2,8 @@ import { Router } from "express";
 
 const authController = Router();
 
-authController.get('/', (req, res) =>{
-    res.send('it works');
+authController.get('/register', (req, res) =>{
+    res.render('./auth/register');
 })
 
 export default authController

@@ -11,7 +11,7 @@ authController.post('/register', async (req, res) =>{
 
     await userService.register(userData);
     
-    res.redirect('/');
+    res.redirect('/login');
 });
 authController.get('/login', (req, res) =>{
     res.render('./auth/login');
@@ -21,9 +21,10 @@ authController.post('/login', async (req, res) =>{
 
     const token = await userService.login(email, password);
 
-    console.log(token);
+    //attach token to cookie
+    res.cookie('auth', token);
     
-    // res.redirect('/');
+    res.redirect('/');
 });
 
 export default authController

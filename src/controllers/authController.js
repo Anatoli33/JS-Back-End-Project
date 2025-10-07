@@ -11,7 +11,7 @@ authController.post('/register', async (req, res) =>{
 
     await userService.register(userData);
     
-    res.redirect('/login');
+    res.redirect('./auth/login');
 });
 authController.get('/login', (req, res) =>{
     res.render('./auth/login');
@@ -25,6 +25,10 @@ authController.post('/login', async (req, res) =>{
     res.cookie('auth', token);
     
     res.redirect('/');
+});
+authController.get('/logout', (req, res) =>{
+    res.clearCookie('auth');
+    res.redirect("/");
 });
 
 export default authController

@@ -1,36 +1,41 @@
 import Movie from "../modules/movie.js";
 
-export default{
-    
+export default {
+
     async getAll(filter = {}) {
-    const query = {};
+        const query = {};
 
-    if (filter.title) {
-        query.title = { $regex: filter.title, $options: 'i' };
-    }
+        if (filter.title) {
+            query.title = { $regex: filter.title, $options: 'i' };
+        }
 
-    if (filter.genre) {
-        query.genre = { $regex: filter.genre, $options: 'i' };
-    }
+        if (filter.genre) {
+            query.genre = { $regex: filter.genre, $options: 'i' };
+        }
 
-    if (filter.year) {
-        query.year = Number(filter.year);
-    }
+        if (filter.year && !isNaN(filter.year)) {
+            query.year = Number(filter.year);
+        }
 
-    return await Movie.find(query).lean();
+        return Movie.find(query).lean();
     },
- 
-    getOne(movieId){
-        // return Movie.findOne({id: movieId});
-        return Movie.findById(movieId).populate('casts');
-    },
-    create(movieData){
 
-        const movie = new Movie(movieData);
-        
-        return movie.save();
+    getOne(movieId) {
+        return Movie.findById(movieId).populate('casts').lean();
     },
-    async attach(movieId, castId){
-          return Movie.findByIdAndUpdate(movieId, { $push: { casts: castId } });
+
+    create(movieData, userId) {
+        return Movie.create({
+            ...movieData,
+            creator: userId
+        });
+    },
+
+    attach(movieId, castId) {
+        return Movie.findByIdAndUpdate(
+            movieId,
+            { $push: { casts: castId } },
+            { new: true }
+        );
     }
-}
+};

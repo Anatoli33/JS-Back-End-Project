@@ -10,8 +10,9 @@ movieController.get('/create', isAuth, (req, res) => {
 });
 movieController.post('/create', isAuth, (req, res) => {
     const movieData = req.body;
+    const userId = req.user.id;
 
-    movieService.create(movieData);
+    movieService.create(movieData, userId);
     
     res.redirect("/");
 
@@ -21,10 +22,10 @@ movieController.get("/:movieId/details", async (req, res) => {
     try {
         const movieId = req.params.movieId;
         const movie = await movieService.getOne(movieId);
-        // const movieCasts = await castService.getAll({includes: movie.casts});
-
        
-        res.render("movies/details", { movie });
+        const isCreator = movie.creator && movie.creator.equals(req.user?.id);
+       
+        res.render("movies/details", { movie, isCreator });
     } catch (err) {
         console.error(err);
         res.status(500).send("Something went wrong while loading movie details");

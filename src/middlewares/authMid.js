@@ -30,3 +30,10 @@ export function isAuth(req, res, next){
 
     next();
 }
+export function isGuest(req, res, next){
+    if(req.isAuthenticated){
+        return res.redirect('/');
+    }
+
+    next();
+}

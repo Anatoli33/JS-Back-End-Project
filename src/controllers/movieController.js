@@ -6,7 +6,7 @@ import { isAuth } from "../middlewares/authMid.js";
 const movieController = Router();
 
 movieController.get('/create', isAuth, (req, res) => {
-    res.render('create');
+    res.render('movies/create');
 });
 movieController.post('/create', isAuth, (req, res) => {
     const movieData = req.body;
@@ -24,7 +24,7 @@ movieController.get("/:movieId/details", async (req, res) => {
         // const movieCasts = await castService.getAll({includes: movie.casts});
 
        
-        res.render("details", { movie });
+        res.render("movies/details", { movie });
     } catch (err) {
         console.error(err);
         res.status(500).send("Something went wrong while loading movie details");

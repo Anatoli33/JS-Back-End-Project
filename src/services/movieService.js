@@ -37,5 +37,8 @@ export default {
             { $push: { casts: castId } },
             { new: true }
         );
+    },
+    delete(movieId) {
+        return Movie.findByIdAndDelete(movieId);
     }
 };

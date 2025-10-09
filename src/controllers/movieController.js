@@ -67,7 +67,7 @@ movieController.get('/:movieId/delete', isAuth, async (req, res) => {
 
    const movie = await movieService.getOne(movieId);
 
-   if(!movie.creator?.equals(res.user.id)){
+   if(!movie.creator?.equals(req.user.id)){
         return res.redirect('/');
    }
 
@@ -82,7 +82,7 @@ movieController.get('/:movieId/edit',  async (req, res) => {
 
    res.render('movies/edit', { movie });
 });
-movieController.post('/:movieId/edit',  async (req, res) => {
+movieController.post('/:movieId/edit', async (req, res) => {
     const movieId = req.params.movieId;
    const movieData = req.body;
 

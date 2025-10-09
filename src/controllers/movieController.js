@@ -65,6 +65,12 @@ movieController.post('/:movieId/attach', async (req, res) => {
 movieController.get('/:movieId/delete', isAuth, async (req, res) => {
    const movieId = req.params.movieId;
 
+   const movie = await movieService.getOne(movieId);
+
+   if(!movie.creator?.equals(res.user.id)){
+        return res.redirect('/');
+   }
+
    await movieService.delete(movieId);
 
    res.redirect('/')

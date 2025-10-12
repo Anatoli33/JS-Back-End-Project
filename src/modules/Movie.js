@@ -4,7 +4,7 @@ import { Schema, model, Types  } from "mongoose";
 const movieSchema = new Schema({
     title: {
         type: String,
-        required: [true, 'Movie title is required!'],
+        required: [true, 'Title is required!'],
         minLength: [5, 'Title is too short!'],
         match: [/^[a-zA-Z0-9 ]+$/, 'Title has some invalid characters!'],
     },
@@ -18,34 +18,36 @@ const movieSchema = new Schema({
     },
     genre:  {
         type: String,
-        required: [true, 'Movie genre is required!'],
-        minLength: [5, 'Movie genre is too short!'],
-        match: [/^[a-zA-Z0-9 ]+$/, 'Movie genre has some invalid characters!'],
+        required: [true, 'Genre is required!'],
+        minLength: [5, 'Genre is too short!'],
+        match: [/^[a-zA-Z0-9 ]+$/, 'Genre has some invalid characters!'],
     },
     director:  {
         type: String,
-        required: [true, 'Movie director is required!'],
-        minLength: [5, 'Movie director is too short!'],
-        match: [/^[a-zA-Z0-9 ]+$/, 'Movie director has some invalid characters!'],
+        required: [true, 'Director is required!'],
+        minLength: [5, 'Director is too short!'],
+        match: [/^[a-zA-Z0-9 ]+$/, 'Director has some invalid characters!'],
     },
     year:  {
         type: Number,
-        required: [true, 'Movie year is required!'],
-        min: [1900, 'Movie year cannot be less than 1900'],
-        max: [2024, 'Movie year cannot be greater than 2024'],
+        required: [true, 'Year is required!'],
+        min: [1900, 'Year cannot be less than 1900'],
+        max: [2024, 'Year cannot be greater than 2024'],
     },
     imageUrl:  {
         type: String,
-        required: [true, 'Movie image is required!'],
+        required: [true, 'Image is required!'],
         match: [/^https?:\/\//, 'Image link is invalid!'],
     },
     rating:  {
         type: Number,
-        required: [true, 'Movie rating is required!']
+        required: [true, 'Rating is required!'],
+        min: [1, 'Rating cannot be less than 1'],
+        max: [10, 'Rating cannot be more than 10'],
     },
     description:  {
         type: String,
-        required: [true, 'Movie description is required!'],
+        required: [true, 'Description is required!'],
         minLength: [20, 'Description should be at least 20 characters!'],
         match: [/^[a-zA-Z0-9 ]+$/, 'Description has some invalid characters!'],
     },

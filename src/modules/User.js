@@ -2,9 +2,12 @@ import { Schema, model } from 'mongoose';
 import bcrypt from 'bcrypt';
 
 const userSchema = new Schema({
-    email: {
+   email: {
         type: String,
-        required: true,
+        required: [true, 'User email is requried'],
+        unique: [true, 'Email should be unique'],
+        match: [/[a-zA-Z0-9]+\.[a-zA-Z0-9]+$/],
+        minLength: [10, 'Email should be at least 10 characters long!'],
     },
     password: {
         type: String,
@@ -12,6 +15,19 @@ const userSchema = new Schema({
     }
 });
 
+userSchema.virtual('rePassword')
+    .get(function() {
+        return this._rePassword;
+    })
+    .set(function(value) {
+        this._rePassword = value;
+    });
+
+userSchema.pre('validate', function() {
+    if (this.isNew && this.password !== this.rePassword) {
+        this.invalidate('rePassword', 'Password missmatch!');
+    }
+});
 userSchema.pre('save', async function () {
     this.password = await bcrypt.hash(this.password, 13);
 });

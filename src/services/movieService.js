@@ -1,4 +1,4 @@
-import Movie from "../modules/movie.js";
+import Movie from "../modules/Movie.js";
 
 export default {
 

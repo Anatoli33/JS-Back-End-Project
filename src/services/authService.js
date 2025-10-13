@@ -13,12 +13,8 @@ export default{
         throw new Error('This user already exists!');
     }
 
-    const hashedPassword = await bcrypt.hash(userData.password, 12);
-
-    return User.create({
-        ...userData,
-        password: hashedPassword
-    });
+    
+    return User.create(userData);
     },
     async login(email, password){
         

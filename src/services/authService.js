@@ -6,8 +6,19 @@ import jwt from 'jsonwebtoken';
 const JWT_SECRET = 'c4d8a1e2a7c6f48d94f1a3e1a3a5e7f2d1c8a9b7c4f6e3a5d7f9b2c4a8e1f3c9';
 
 export default{
-    register(userData){
-        return User.create(userData);
+    async register(userData) {
+    const exists = await User.exists({ email: userData.email });
+
+    if (exists) {
+        throw new Error('This user already exists!');
+    }
+
+    const hashedPassword = await bcrypt.hash(userData.password, 12);
+
+    return User.create({
+        ...userData,
+        password: hashedPassword
+    });
     },
     async login(email, password){
         

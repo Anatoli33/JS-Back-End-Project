@@ -23,16 +23,23 @@ authController.post('/register', async (req, res) => {
 authController.get('/login',  isGuest, (req, res) =>{
     res.render('./auth/login');
 });
-authController.post('/login', async (req, res) =>{
-    const { email, password} = req.body;
+authController.post('/login', async (req, res) => {
+    const { email, password } = req.body;
 
-    const token = await userService.login(email, password);
+    try {
+        const token = await userService.login(email, password);
 
-    //attach token to cookie
-    res.cookie('auth', token);
-    
-    res.redirect('/');
-});
+        // Attach token to cookie
+        res.cookie('auth', token);
+
+        res.redirect('/');
+    } catch (err) {
+        res.status(400).render('auth/login', {
+            error: err.message,
+            email,
+        });
+    }
+})
 authController.get('/logout', isAuth, (req, res) =>{
     res.clearCookie('auth');
     res.redirect("/");

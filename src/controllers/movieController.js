@@ -44,14 +44,23 @@ movieController.get('/search', async (req, res) => {
     }
 });
 
-movieController.get('/:movieId/attach', async(req, res) =>{
+movieController.get('/:movieId/attach', isAuth, async (req, res) => {
     const movieId = req.params.movieId;
-    
-    const movie = await movieService.getOne(movieId);
-    const casts = await castService.getAll();
 
-    res.render('casts/attach', {movie, casts});
+    try {
+        const movie = await movieService.getOne(movieId);
+        if (!movie.creator?.equals(req.user.id)) {
+            return res.redirect('/');
+        }
+
+        const casts = await castService.getAll();
+        res.render('casts/attach', { movie, casts });
+    } catch (err) {
+        console.error('Error loading attach page:', err);
+        res.status(500).send('Failed to load attach page');
+    }
 });
+
 
 movieController.post('/:movieId/attach', async (req, res) => {
     const movieId = req.params.movieId;
@@ -82,6 +91,11 @@ movieController.get('/:movieId/edit',  async (req, res) => {
    const movieId = req.params.movieId;
 
    const movie = await movieService.getOne(movieId);
+
+   if(!movie.creator?.equals(req.user.id)){
+        return res.redirect('/');
+   }
+
 
    res.render('movies/edit', { movie });
 });

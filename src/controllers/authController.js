@@ -14,11 +14,16 @@ authController.post('/register', async (req, res) => {
         await userService.register(userData);
         res.redirect('/auth/login');
     } catch (err) {
-       const errorMessage = Object.values(err.errors).at(0).message;
+        let errorMessage = err.message;
 
-        res.status(400).render('auth/register', { error: errorMessage, user: userData })
+        // Handle Mongoose validation errors
+        if (err.name === 'ValidationError') {
+            errorMessage = Object.values(err.errors)[0].message;
+        }
+        res.status(400).render('auth/register', { error: errorMessage, user: userData });
     }
 });
+
 
 authController.get('/login',  isGuest, (req, res) =>{
     res.render('./auth/login');

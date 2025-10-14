@@ -46,4 +46,4 @@ app.use(authMiddleware);
 
 app.use(routes);
 
-app.listen(port, () => console.log(`Express running on port: http://localhost:${port}/...`));
+app.listen(port, () => console.log(`Express running on port: http://localhost:${port}...`));

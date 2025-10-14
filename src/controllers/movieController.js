@@ -32,14 +32,17 @@ movieController.get("/:movieId/details", async (req, res) => {
     }
 });
 
-movieController.get('/search', (req, res) =>{
+movieController.get('/search', async (req, res) => {
     const filter = req.query;
 
-    const movies = movieService.getAll(filter);
-
-    res.render('search', { movies, filter });
+    try {
+        const movies = await movieService.getAll(filter);
+        res.render('search', { movies, filter });
+    } catch (err) {
+        console.error(err);
+        res.status(500).render('search', { movies: [], filter, error: 'Something went wrong while searching.' });
+    }
 });
-
 
 movieController.get('/:movieId/attach', async(req, res) =>{
     const movieId = req.params.movieId;

@@ -16,7 +16,6 @@ export default {
         if (filter.year && !isNaN(filter.year)) {
             query.year = Number(filter.year);
         }
-
         return Movie.find(query).lean();
     },
 

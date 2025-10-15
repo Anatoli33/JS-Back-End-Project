@@ -1,6 +1,7 @@
 import { Router } from "express";
 import userService from "../services/authService.js";
 import { isAuth, isGuest } from './../middlewares/authMid.js';
+import { getErrorMessage } from './../utils/errorUtils.js';
 
 const authController = Router();
 
@@ -14,12 +15,8 @@ authController.post('/register', async (req, res) => {
         await userService.register(userData);
         res.redirect('/auth/login');
     } catch (err) {
-        let errorMessage = err.message;
+        const errorMessage = getErrorMessage(err);
 
-        // Handle Mongoose validation errors
-        if (err.name === 'ValidationError') {
-            errorMessage = Object.values(err.errors)[0].message;
-        }
         res.status(400).render('auth/register', { error: errorMessage, user: userData });
     }
 });
@@ -39,8 +36,9 @@ authController.post('/login', async (req, res) => {
 
         res.redirect('/');
     } catch (err) {
+        const errorMessage = getErrorMessage(err);
         res.status(400).render('auth/login', {
-            error: err.message,
+            error: errorMessage,
             email,
         });
     }

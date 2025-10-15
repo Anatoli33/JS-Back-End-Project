@@ -2,20 +2,24 @@ import { Router } from "express";
 import movieService from "../services/movieService.js";
 import castService from "../services/castService.js";
 import { isAuth } from "../middlewares/authMid.js";
+import { getErrorMessage } from "../utils/errorUtils.js";
 
 const movieController = Router();
 
 movieController.get('/create', isAuth, (req, res) => {
     res.render('movies/create');
 });
-movieController.post('/create', isAuth, (req, res) => {
+movieController.post('/create', isAuth, async (req, res) => {
     const movieData = req.body;
     const userId = req.user.id;
 
-    movieService.create(movieData, userId);
-    
-    res.redirect("/");
-
+    try {
+        await movieService.create(movieData, userId);
+        res.redirect('/');
+    } catch (error) {
+        const errorMessage = getErrorMessage(error);
+        res.status(400).render('movies/create', { error: errorMessage, movie: movieData });
+    }
 });
 
 movieController.get("/:movieId/details", async (req, res) => {
